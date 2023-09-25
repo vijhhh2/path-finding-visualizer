@@ -1,0 +1,18 @@
+.start {
+    background-color: green;
+}
+
+.end {
+    background-color: red;
+}
+
+.wall {
+    background-color: rgb(46, 46, 46);
+}
+
+.cell {
+    border: 1px solid #1c1c1c4a;
+    width: 25px;
+    height: 25px;
+  }
+  
