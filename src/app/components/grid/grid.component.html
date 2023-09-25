@@ -1,0 +1,12 @@
+<div class="mode">
+  {{ mode$ | async }}
+</div>
+<div class="grid">
+  <div class="row" *ngFor="let row of grid; let rowIndex = index">
+    <app-node
+      *ngFor="let col of row; let colIndex = index"
+      [node]="grid[rowIndex][colIndex]"
+      (cellNodeClicked)="onCellNodeClicked($event)"
+    ></app-node>
+  </div>
+</div>
