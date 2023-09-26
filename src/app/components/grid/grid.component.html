@@ -1,6 +1,9 @@
 <div class="mode">
   {{ mode$ | async }}
 </div>
+<div class="mode">
+  <button mat-raised-button color="primary" (click)="startPathFinding()">Start</button>
+</div>
 <div class="grid">
   <div class="row" *ngFor="let row of grid; let rowIndex = index">
     <app-node

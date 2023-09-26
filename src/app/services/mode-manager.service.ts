@@ -1,4 +1,4 @@
-import { S, W, E, ESCAPE } from '@angular/cdk/keycodes';
+import { S, W, E, ESCAPE, R } from '@angular/cdk/keycodes';
 import {
   Injectable,
   OnDestroy,
@@ -60,11 +60,14 @@ export class ModeManagerService implements OnDestroy {
       case E:
         this.toggleEndMode();
         break;
+      case R:
+        this.toggleResetMode();
+        break;
       case ESCAPE:
         this.enterNoneMode();
         break;
       default:
-        console.log('Please esacpe to enter NONE');
+        console.log('Please escape to enter NONE');
     }
   }
 
@@ -100,6 +103,14 @@ export class ModeManagerService implements OnDestroy {
       this.updateMode('NONE');
     } else {
       this.updateMode('START');
+    }
+  }
+
+  toggleResetMode() {
+    if (this.#mode === 'RESET') {
+      this.updateMode('NONE');
+    } else {
+      this.updateMode('RESET');
     }
   }
 
