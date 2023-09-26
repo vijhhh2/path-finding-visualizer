@@ -1,22 +1,36 @@
 .start {
-    background-color: green;
+  background-color: green !important;
 }
 
 .end {
-    background-color: red;
+  background-color: red !important;
 }
 
 .wall {
-    background-color: rgb(46, 46, 46);
+  background-color: rgb(46, 46, 46) !important;
 }
 
-.explored {
-    background-color: yellow;
+.visited {
+  background-color: yellow !important;
+}
+
+.closed {
+  background-color: #673ab7 !important;
+}
+
+.path {
+  background-color: #f0774e !important;
+}
+
+.default {
+  background-color: white !important;
 }
 
 .cell {
-    border: 1px solid #1c1c1c4a;
-    width: 25px;
-    height: 25px;
-  }
-  
+  border: 1px solid #1c1c1c4a;
+  width: 25px;
+  height: 25px;
+  background-color: white;
+  transition: all 0.5s;
+}
+

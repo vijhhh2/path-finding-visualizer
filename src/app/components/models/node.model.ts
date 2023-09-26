@@ -4,6 +4,8 @@ export interface CellNode {
     isStart: boolean;
     isEnd: boolean;
     isWall: boolean;
-    isExplored: boolean;
+    isVisited: boolean;
+    isClosed: boolean;
+    isPath: boolean;
     connectedTo?: CellNode;
 }

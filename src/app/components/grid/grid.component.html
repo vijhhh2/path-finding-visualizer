@@ -2,14 +2,16 @@
   {{ mode$ | async }}
 </div>
 <div class="mode">
-  <button mat-raised-button color="primary" (click)="startPathFinding()">Start</button>
+  <button mat-raised-button color="primary" (click)="startPathFinding()" [disabled]="(isPathFindingInProgress$ | async)">Start</button>
+  <button mat-raised-button color="primary" (click)="clearGrid()" [disabled]="(isPathFindingInProgress$ | async)">Clear</button>
+  <button mat-raised-button color="primary" (click)="onCancel()" [disabled]="!(isPathFindingInProgress$ | async)">Cancel</button>
 </div>
-<div class="grid">
-  <div class="row" *ngFor="let row of grid; let rowIndex = index">
-    <app-node
-      *ngFor="let col of row; let colIndex = index"
-      [node]="grid[rowIndex][colIndex]"
-      (cellNodeClicked)="onCellNodeClicked($event)"
-    ></app-node>
+
+<ng-container *ngIf="grid$ | async as grid">
+  <div class="grid" *ngIf="grid.length > 0">
+    <div class="row" *ngFor="let row of grid; let rowIndex = index; trackBy:trackByArray">
+      <app-node *ngFor="let col of row; let colIndex = index; trackBy:trackBy" [node]="grid[rowIndex][colIndex]"
+        (cellNodeClicked)="onCellNodeClicked($event)"></app-node>
+    </div>
   </div>
-</div>
+</ng-container>

@@ -1,4 +1,5 @@
 <div
   class="cell"
-  [ngClass]="{ start: cellNode.isStart, end: cellNode.isEnd, wall: cellNode.isWall, explored: cellNode.isExplored }"
+  title="{{ cellNode.row }},{{ cellNode.col }}"
+  [ngClass]="cellNode | cellStateClass"
 ></div>

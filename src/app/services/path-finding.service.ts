@@ -1,5 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CellNode } from '../components/models/node.model';
+import { GridManagerService } from './grid-manager.service';
+import { isEqual, isEqualWith } from 'lodash';
 
 const directions = [
   [-1, 0], // TOP
@@ -12,27 +14,39 @@ const directions = [
   providedIn: 'root',
 })
 export class PathFindingService {
+  gridManagerService = inject(GridManagerService);
+
   constructor() {}
 
   bfsPathFinding(start: CellNode, end: CellNode, grid: CellNode[][]) {
     const frontier = [start];
-    const closed: {[key: string]: CellNode} = {};
-    
-    while(frontier.length > 0) {
-      let currentNode = frontier.shift() as CellNode;
-      closed[`${currentNode.row,currentNode.col}`] = currentNode;
+    const closed: { [key: string]: CellNode } = {};
 
-      const neighBors =this.getNeighbors(currentNode, grid);
-      for(const neighBor of neighBors) {
-        if(closed[`${neighBor.row,neighBor.col}`] || neighBor.isExplored) {
+    while (frontier.length > 0) {
+      let currentNode = frontier.shift() as CellNode;
+
+      if (this.isEndNode(currentNode, end)) {
+        this.createPath(currentNode, grid);
+        this.gridManagerService.updateGridWithDelay(grid, 1, true)
+        return;
+      }
+
+      closed[`${currentNode.row},${currentNode.col}`] = currentNode;
+      currentNode.isClosed = true;
+
+      const neighbors = this.getNeighbors(currentNode, grid);
+      for (const neighbor of neighbors) {
+        if (closed[`${neighbor.row},${neighbor.col}`] || neighbor.isVisited) {
           continue;
         }
-        neighBor.connectedTo = currentNode;
-        neighBor.isExplored = true;
-        frontier.push(neighBor);
+        neighbor.connectedTo = currentNode;
+        neighbor.isVisited = true;
+        frontier.push(neighbor);
       }
+      this.gridManagerService.updateGridWithDelay(grid, 1, false);
     }
-    
+
+    this.gridManagerService.updateGridWithDelay(grid, 1, true);
   }
 
   getNeighbors(node: CellNode, grid: CellNode[][]) {
@@ -40,7 +54,7 @@ export class PathFindingService {
 
     for (const direction of directions) {
       const row = node.row + direction[0];
-      const col = node.row + direction[1];
+      const col = node.col + direction[1];
       if (row < 0 || row >= grid.length || col < 0 || col >= grid[0].length) {
         continue;
       }
@@ -48,5 +62,18 @@ export class PathFindingService {
     }
 
     return neighBors;
+  }
+
+  isEndNode(currentNode: CellNode, endNode: CellNode) {
+    return currentNode.row === endNode.row && currentNode.col === endNode.col;
+  }
+
+  createPath(node: CellNode, grid: CellNode[][]) {
+    let currentNode = node.connectedTo;
+    while (currentNode?.connectedTo) {
+      currentNode.isPath = true;
+      grid[currentNode.row][currentNode.col] = currentNode;
+      currentNode = currentNode?.connectedTo;
+    }
   }
 }
