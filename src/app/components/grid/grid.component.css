@@ -15,3 +15,50 @@
   display: flex;
   gap: 10px;
 }
+
+.info {
+  width: 300px;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  display: flex;
+  flex-flow: column;
+  gap: 20px;
+  padding: 10px;
+}
+.instructions {
+  width: 300px;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  display: flex;
+  flex-flow: column;
+  gap: 20px;
+  padding: 10px;
+}
+
+.all-info {
+  display: flex;
+  flex-flow: column;
+  gap: 20px;
+}
+
+.page {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+.title {
+  font-size: 2rem;
+}
+
+.current-mode {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 10px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.highlight {
+  font-size: 1.5rem;
+  font-weight: 700;
+}

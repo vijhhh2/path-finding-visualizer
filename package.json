@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "start": "nx serve --port=3000",
+    "build": "nx build",
+    "watch": "nx build --watch --configuration development",
+    "test": "nx test"
   },
   "private": true,
   "dependencies": {
@@ -20,6 +20,7 @@
     "@angular/platform-browser": "^16.2.0",
     "@angular/platform-browser-dynamic": "^16.2.0",
     "@angular/router": "^16.2.0",
+    "@datastructures-js/priority-queue": "^6.3.0",
     "lodash": "^4.17.21",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
@@ -27,8 +28,12 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^16.2.3",
+    "@angular-devkit/core": "~16.2.3",
+    "@angular-devkit/schematics": "~16.2.3",
     "@angular/cli": "~16.2.3",
     "@angular/compiler-cli": "^16.2.0",
+    "@nx/angular": "16.3.2",
+    "@nx/workspace": "16.3.2",
     "@schematics/angular": "^16.2.3",
     "@types/jasmine": "~4.3.0",
     "@types/lodash": "^4.14.199",
@@ -38,6 +43,8 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "nx": "16.3.2",
+    "nx-cloud": "latest",
     "typescript": "~5.1.3"
   }
 }

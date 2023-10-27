@@ -7,5 +7,10 @@ export interface CellNode {
     isVisited: boolean;
     isClosed: boolean;
     isPath: boolean;
+    gCost: number;
+    hCost: number;
+    fCost: number;
     connectedTo?: CellNode;
 }
+
+export type Grid = CellNode[][];

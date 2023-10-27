@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { CellNode } from '../../models/node.model';
 import { isEmpty } from 'lodash';
+import { CellNode } from '../../models/node.model';
 
 @Pipe({
   name: 'cellStateClass',

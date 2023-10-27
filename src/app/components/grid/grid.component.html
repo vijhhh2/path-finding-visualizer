@@ -1,17 +1,55 @@
-<div class="mode">
-  {{ mode$ | async }}
-</div>
-<div class="mode">
-  <button mat-raised-button color="primary" (click)="startPathFinding()" [disabled]="(isPathFindingInProgress$ | async)">Start</button>
-  <button mat-raised-button color="primary" (click)="clearGrid()" [disabled]="(isPathFindingInProgress$ | async)">Clear</button>
-  <button mat-raised-button color="primary" (click)="onCancel()" [disabled]="!(isPathFindingInProgress$ | async)">Cancel</button>
-</div>
-
-<ng-container *ngIf="grid$ | async as grid">
-  <div class="grid" *ngIf="grid.length > 0">
-    <div class="row" *ngFor="let row of grid; let rowIndex = index; trackBy:trackByArray">
-      <app-node *ngFor="let col of row; let colIndex = index; trackBy:trackBy" [node]="grid[rowIndex][colIndex]"
-        (cellNodeClicked)="onCellNodeClicked($event)"></app-node>
+<div class="page">
+  <div class="all-info">
+    <div class="instructions">
+      <div><span class="title">Instructions</span></div>
+      <div>
+        <span>press <span class="highlight">S</span> to place a start node</span>
+      </div>
+      <div>
+        <span>press <span class="highlight">E</span> to place a end node</span>
+      </div>
+      <div>
+        <span>press <span class="highlight">W</span> to place a wall node</span>
+      </div>
+      <div>
+        <span>press <span class="highlight">Esc</span> to goto to none mode</span>
+      </div>
+    </div>
+    <div class="info">
+      <mat-form-field appearance="outline">
+        <mat-label>Select algorithm</mat-label>
+        <mat-select [formControl]="selectedAlgorithm">
+          <mat-option *ngFor="let algo of algorithms" [value]="algo">
+            {{ algo }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <ng-container *ngIf="(mode$ | async) | mode as modeValue">
+        <div class="current-mode">
+          <img [src]="modeValue.image" width="50px" alt="wall">
+          <span class="title">{{ mode$ | async }}</span>
+        </div>
+        <div>
+          <span class="description">{{ modeValue.description }}</span>
+        </div>
+      </ng-container>
+      <div class="mode">
+        <button mat-raised-button color="primary" (click)="startPathFinding()"
+          [disabled]="(isPathFindingInProgress$ | async)" title="Button">Start</button>
+        <button mat-raised-button color="primary" (click)="clearGrid()"
+          [disabled]="(isPathFindingInProgress$ | async)">Clear</button>
+        <button mat-raised-button color="primary" (click)="onCancel()"
+          [disabled]="!(isPathFindingInProgress$ | async)">Cancel</button>
+      </div>
     </div>
   </div>
-</ng-container>
+
+  <ng-container *ngIf="grid$ | async as grid">
+    <div class="grid" *ngIf="grid.length > 0">
+      <div class="row" *ngFor="let row of grid; let rowIndex = index; trackBy:trackByArray">
+        <app-node *ngFor="let col of row; let colIndex = index; trackBy:trackBy" [node]="grid[rowIndex][colIndex]"
+          (cellNodeClicked)="onCellNodeClicked($event)"></app-node>
+      </div>
+    </div>
+  </ng-container>
+</div>

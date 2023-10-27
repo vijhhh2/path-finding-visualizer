@@ -1,14 +1,32 @@
-import { Injectable, inject } from '@angular/core';
-import { CellNode } from '../components/models/node.model';
+import { Inject, Injectable, InjectionToken, inject } from '@angular/core';
 import { GridManagerService } from './grid-manager.service';
-import { isEqual, isEqualWith } from 'lodash';
+import { BehaviorSubject } from 'rxjs';
+import {
+  Algos,
+  PathFinding,
+} from '../models/path-finding.interface';
+import { BFS } from '../path-finding-algos/bfs';
+import { CellNode, Grid } from '../models/node.model';
+import { AStar } from '../path-finding-algos/a*';
 
-const directions = [
-  [-1, 0], // TOP
-  [0, 1], // RIGHT
-  [1, 0], // DOWN
-  [0, -1], // LEFT
-] as const;
+const PathFindingAlgo = new InjectionToken<(algo: Algos) => PathFinding>(
+  'Path finding algorithm factory',
+  {
+    factory() {
+      const gridManagerService = inject(GridManagerService);
+      return (algo: Algos): PathFinding => {
+        switch (algo) {
+          case 'BFS':
+            return new BFS(gridManagerService);
+          case 'A*':
+            return new AStar(gridManagerService);
+          default:
+            throw new Error('Unable to find algorithm');
+        }
+      };
+    },
+  }
+);
 
 @Injectable({
   providedIn: 'root',
@@ -16,64 +34,15 @@ const directions = [
 export class PathFindingService {
   gridManagerService = inject(GridManagerService);
 
-  constructor() {}
+  isPathFindingInProgress$ = new BehaviorSubject(false);
 
-  bfsPathFinding(start: CellNode, end: CellNode, grid: CellNode[][]) {
-    const frontier = [start];
-    const closed: { [key: string]: CellNode } = {};
+  constructor(
+    @Inject(PathFindingAlgo)
+    private pathFindingAlgoManager: (algo: Algos) => PathFinding
+  ) {}
 
-    while (frontier.length > 0) {
-      let currentNode = frontier.shift() as CellNode;
-
-      if (this.isEndNode(currentNode, end)) {
-        this.createPath(currentNode, grid);
-        this.gridManagerService.updateGridWithDelay(grid, 1, true)
-        return;
-      }
-
-      closed[`${currentNode.row},${currentNode.col}`] = currentNode;
-      currentNode.isClosed = true;
-
-      const neighbors = this.getNeighbors(currentNode, grid);
-      for (const neighbor of neighbors) {
-        if (closed[`${neighbor.row},${neighbor.col}`] || neighbor.isVisited) {
-          continue;
-        }
-        neighbor.connectedTo = currentNode;
-        neighbor.isVisited = true;
-        frontier.push(neighbor);
-      }
-      this.gridManagerService.updateGridWithDelay(grid, 1, false);
-    }
-
-    this.gridManagerService.updateGridWithDelay(grid, 1, true);
-  }
-
-  getNeighbors(node: CellNode, grid: CellNode[][]) {
-    let neighBors: CellNode[] = [];
-
-    for (const direction of directions) {
-      const row = node.row + direction[0];
-      const col = node.col + direction[1];
-      if (row < 0 || row >= grid.length || col < 0 || col >= grid[0].length) {
-        continue;
-      }
-      neighBors.push(grid[row][col]);
-    }
-
-    return neighBors;
-  }
-
-  isEndNode(currentNode: CellNode, endNode: CellNode) {
-    return currentNode.row === endNode.row && currentNode.col === endNode.col;
-  }
-
-  createPath(node: CellNode, grid: CellNode[][]) {
-    let currentNode = node.connectedTo;
-    while (currentNode?.connectedTo) {
-      currentNode.isPath = true;
-      grid[currentNode.row][currentNode.col] = currentNode;
-      currentNode = currentNode?.connectedTo;
-    }
+  findPath(start: CellNode, end: CellNode, grid: Grid, algorithm: Algos) {
+    const algo = this.pathFindingAlgoManager(algorithm);
+    algo.findPath(start, end, grid);
   }
 }

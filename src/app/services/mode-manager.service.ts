@@ -6,7 +6,7 @@ import {
   RendererFactory2,
   inject,
 } from '@angular/core';
-import { MODE } from '../components/models/modes';
+import { MODE } from '../models/modes';
 import {
   BehaviorSubject,
   Subject,
