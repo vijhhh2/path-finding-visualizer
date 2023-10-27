@@ -129,6 +129,7 @@ export class GridComponent implements OnInit, OnDestroy, AfterViewInit {
           this.endProgress$.next();
           this.endProgress$.complete();
           this.pathFindingService.isPathFindingInProgress$.next(false);
+          this.gridManagerService.updateGridWithDelayUpdated([], false);
         }
       });
   }

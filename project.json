@@ -9,7 +9,7 @@
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
       "options": {
-        "outputPath": "dist/my-app",
+        "outputPath": "dist/path-finding-visualizer",
         "index": "src/index.html",
         "main": "src/main.ts",
         "polyfills": [

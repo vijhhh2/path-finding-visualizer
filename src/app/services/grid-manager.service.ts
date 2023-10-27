@@ -46,6 +46,7 @@ export class GridManagerService implements OnDestroy {
       });
     });
     this.grid$.next(this.#grid);
+    // this.updateGridWithDelayUpdated(this.#grid, false);
   }
 
   updateGrid(grid: Grid) {

@@ -1,20 +1,5 @@
 <div class="page">
   <div class="all-info">
-    <div class="instructions">
-      <div><span class="title">Instructions</span></div>
-      <div>
-        <span>press <span class="highlight">S</span> to place a start node</span>
-      </div>
-      <div>
-        <span>press <span class="highlight">E</span> to place a end node</span>
-      </div>
-      <div>
-        <span>press <span class="highlight">W</span> to place a wall node</span>
-      </div>
-      <div>
-        <span>press <span class="highlight">Esc</span> to goto to none mode</span>
-      </div>
-    </div>
     <div class="info">
       <mat-form-field appearance="outline">
         <mat-label>Select algorithm</mat-label>
@@ -40,6 +25,21 @@
           [disabled]="(isPathFindingInProgress$ | async)">Clear</button>
         <button mat-raised-button color="primary" (click)="onCancel()"
           [disabled]="!(isPathFindingInProgress$ | async)">Cancel</button>
+      </div>
+    </div>
+    <div class="instructions">
+      <div><span class="title">Instructions</span></div>
+      <div>
+        <span>press <span class="highlight">S</span> to place a start node</span>
+      </div>
+      <div>
+        <span>press <span class="highlight">E</span> to place a end node</span>
+      </div>
+      <div>
+        <span>press <span class="highlight">W</span> to place a wall node</span>
+      </div>
+      <div>
+        <span>press <span class="highlight">Esc</span> to goto to none mode</span>
       </div>
     </div>
   </div>
